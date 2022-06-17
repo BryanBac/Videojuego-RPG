@@ -110,9 +110,11 @@ while True:
             if event.key == pygame.K_z:
                 if pantalla == 1:
                     z_pressed = False
+                    colision_anterior1 = False
             if event.key == pygame.K_j:
                 if pantalla == 1:
                     j_pressed = False
+                    colision_anterior2 = False
         #  teclas oprimidas
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -156,17 +158,15 @@ while True:
                     if eleccion == 3:
                         print("Saliendo...")
                         exit()
-    # colisiones -- me falta arreglar un error, hasta ahorita solo funciona un golpe y luego debe alejarse
+    # colisiones
     if rec_cuatro_brazos.colliderect(rec_kevin11):
         colision_actual = rec_cuatro_brazos.colliderect(rec_kevin11)
-        if z_pressed:
-            if colision_anterior1 != colision_actual:
-                colision_anterior1 = colision_actual
-                print("atacó jugador 1")
-        if j_pressed:
-            if colision_anterior2 != colision_actual:
-                colision_anterior2 = colision_actual
-                print("atacó jugador 2")
+        if colision_anterior1 != colision_actual and z_pressed:
+            colision_anterior1 = colision_actual
+            print("atacó jugador 1")
+        if colision_anterior2 != colision_actual and j_pressed:
+            colision_anterior2 = colision_actual
+            print("atacó jugador 2")
     else:
         colision_anterior = False
         colision_actual = False
