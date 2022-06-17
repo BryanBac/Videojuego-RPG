@@ -28,9 +28,12 @@ ancho_villano = 150
 kevin11 = pygame.transform.scale(kevin11, (ancho_villano, 180))
 rec_kevin11 = kevin11.get_rect(topright=(656-ancho_villano, 250))
 
-#  variables
-eleccion = 1
-pantalla = 0
+#  variables importantes
+eleccion: int = 1
+pantalla: int = 0
+colision_actual: bool = False
+colision_anterior1: bool = False
+colision_anterior2: bool = False
 
 
 def pantalla_inicio(text_surface1, text_surface2, text_surface3):
@@ -56,11 +59,17 @@ def pantalla_pvp(fondo, personaje, rect_personaje, villano, rec_villano):
     screen.blit(villano, rec_villano)
 
 
+#  variables importantes para movimientos y colisiones
 presion_izq: bool = False
 presion_der: bool = False
 
 presion_A: bool = False
 presion_D: bool = False
+
+z_pressed: bool = False
+j_pressed: bool = False
+
+
 while True:
     #  Movimiento
     if presion_A:
@@ -98,6 +107,12 @@ while True:
             if event.key == pygame.K_d:
                 if pantalla == 1:
                     presion_D = False
+            if event.key == pygame.K_z:
+                if pantalla == 1:
+                    z_pressed = False
+            if event.key == pygame.K_j:
+                if pantalla == 1:
+                    j_pressed = False
         #  teclas oprimidas
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -122,6 +137,12 @@ while True:
             if event.key == pygame.K_d:
                 if pantalla == 1:
                     presion_D = True
+            if event.key == pygame.K_z:
+                if pantalla == 1:
+                    z_pressed = True
+            if event.key == pygame.K_j:
+                if pantalla == 1:
+                    j_pressed = True
             if event.key == pygame.K_RETURN:
                 if pantalla == 0:
                     if eleccion == 1:
@@ -135,6 +156,20 @@ while True:
                     if eleccion == 3:
                         print("Saliendo...")
                         exit()
+    # colisiones -- me falta arreglar un error, hasta ahorita solo funciona un golpe y luego debe alejarse
+    if rec_cuatro_brazos.colliderect(rec_kevin11):
+        colision_actual = rec_cuatro_brazos.colliderect(rec_kevin11)
+        if z_pressed:
+            if colision_anterior1 != colision_actual:
+                colision_anterior1 = colision_actual
+                print("atacó jugador 1")
+        if j_pressed:
+            if colision_anterior2 != colision_actual:
+                colision_anterior2 = colision_actual
+                print("atacó jugador 2")
+    else:
+        colision_anterior = False
+        colision_actual = False
     if pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif pantalla == 1:
