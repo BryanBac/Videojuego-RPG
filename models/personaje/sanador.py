@@ -1,16 +1,9 @@
 from models.personaje.personaje import Personaje
-from typing import Dict
-import pygame
 
 
 class Sanador(Personaje):
-    def __init__(self, hp, mp, st, pos_x, pos_y):
-        self.__hp: int = hp
-        self.__mp: int = mp
-        self.__st: int = st
-        self.__pos_x: int = pos_x
-        self.__pos_y: int = pos_y
-        self.__items: Dict[str, int] = {('Item 1', 5), ('Item 2', 4), ('Item 3', 2)}
+    def __init__(self, hp, mp, st, pos_x, pos_y, h, ruta_imagen: str):
+        super().__init__(hp, mp, st, pos_x, pos_y, h, ruta_imagen)
 
     def izquierda(self):
         pass
@@ -21,11 +14,20 @@ class Sanador(Personaje):
     def saltar(self):
         pass
 
-    def golpear(self) -> float:
+    def golpear(self, ruta_imagen):
         pass
 
     def super_ataque(self) -> float:
         pass
+
+    def correr(self):
+        pass
+
+    def get_imagen(self):
+        return self.personaje
+
+    def get_rect(self) -> float:
+        return self.rec_personaje
 
     def revivir(self):
         pass

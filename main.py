@@ -1,5 +1,8 @@
 import pygame
 from sys import exit
+from models.personaje.guerrero import Guerrero
+from models.personaje.sanador import Sanador
+
 
 pygame.init()
 ancho = 800
@@ -19,14 +22,13 @@ fondo_surface = pygame.image.load("assets/fondo.jpg").convert()
 piso_surface = pygame.image.load("assets/ch.png").convert()
 piso_surface = pygame.transform.scale(piso_surface, (ancho, 50))
 
-cuatro_brazos = pygame.image.load("assets/cuatrobrazos.png").convert_alpha()
-cuatro_brazos = pygame.transform.scale(cuatro_brazos, (150, 100))
-rec_cuatro_brazos = cuatro_brazos.get_rect(topright=(150, 250))
+personaje1 = Guerrero(10, 10, 10, 150, 180, 180, "assets/guerrero.png")
+cuatro_brazos = personaje1.get_imagen()
+rec_cuatro_brazos = personaje1.get_rect()
 
-kevin11 = pygame.image.load("assets/kevin11.png").convert_alpha()
-ancho_villano = 150
-kevin11 = pygame.transform.scale(kevin11, (ancho_villano, 180))
-rec_kevin11 = kevin11.get_rect(topright=(656-ancho_villano, 250))
+personaje1 = Sanador(10, 10, 10, 656-150, 250, 180, "assets/sanador.png")
+kevin11 = personaje1.get_imagen()
+rec_kevin11 = personaje1.get_rect()
 
 #  variables importantes
 eleccion: int = 1
