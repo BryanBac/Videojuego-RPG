@@ -5,12 +5,14 @@ from typing import Dict
 
 class Personaje(metaclass=ABCMeta):
     def __init__(self, hp, mp, st, pos_x, pos_y, h, ruta_imagen: str):
-        self.__hp: int = hp
+        self.hp: int = hp
         self.__mp: int = mp
-        self.__st: int = st
+        self.st: int = st
         self.__pos_x: int = pos_x
         self.__pos_y: int = pos_y
         self.__h: int = h
+        self.colision_actual = False
+        self.colision_anterior = False
         self.__items: Dict[str, int] = {('Item 1', 2), ('Item 2', 3), ('Item 3', 4)}
         self.personaje = pygame.image.load(ruta_imagen).convert_alpha()
         self.personaje = pygame.transform.scale(self.personaje, (150, h))
@@ -19,10 +21,6 @@ class Personaje(metaclass=ABCMeta):
     @abstractmethod
     def izquierda(self):
         pass
-
-    @abstractmethod
-    def golpear(self):
-        return
 
     @abstractmethod
     def get_imagen(self):
@@ -41,7 +39,7 @@ class Personaje(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def golpear(self, ruta_imagen):
+    def golpear(self, rectangulo_enemigo, key_pressed: bool) -> int:
         pass
 
     @abstractmethod
@@ -50,4 +48,8 @@ class Personaje(metaclass=ABCMeta):
 
     @abstractmethod
     def correr(self):
+        pass
+
+    @abstractmethod
+    def recibir_daño(self, cantidad_recibida: int):
         pass

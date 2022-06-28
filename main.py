@@ -2,7 +2,7 @@ import pygame
 from sys import exit
 from models.personaje.guerrero import Guerrero
 from models.personaje.sanador import Sanador
-
+from models.personaje.personaje import Personaje
 
 pygame.init()
 ancho = 800
@@ -16,26 +16,18 @@ text_surface1 = test_font.render("PvP", False, "White")
 text_surface2 = test_font.render("PC", False, "White")
 text_surface3 = test_font.render("Salir", False, "White")
 
-#  imagenes -- Estas son de prueba para ver como funciona esto
+#  imagenes -- Estas son de prueba para ver como funciddddddddddddona esto
 fondo_surface = pygame.image.load("assets/fondo.jpg").convert()
-
 piso_surface = pygame.image.load("assets/ch.png").convert()
 piso_surface = pygame.transform.scale(piso_surface, (ancho, 50))
 
-personaje1 = Guerrero(10, 10, 10, 150, 180, 180, "assets/guerrero.png")
-cuatro_brazos = personaje1.get_imagen()
-rec_cuatro_brazos = personaje1.get_rect()
-
-personaje1 = Sanador(10, 10, 10, 656-150, 250, 180, "assets/sanador.png")
-kevin11 = personaje1.get_imagen()
-rec_kevin11 = personaje1.get_rect()
+#  Personajes
+personaje1: Personaje = Guerrero(10, 10, 10, 150, 180, 180, "assets/guerrero.png")
+personaje2: Personaje = Sanador(10, 10, 10, 656-150, 250, 180, "assets/sanador.png")
 
 #  variables importantes
 eleccion: int = 1
 pantalla: int = 0
-colision_actual: bool = False
-colision_anterior1: bool = False
-colision_anterior2: bool = False
 
 
 def pantalla_inicio(text_surface1, text_surface2, text_surface3):
@@ -75,21 +67,21 @@ j_pressed: bool = False
 while True:
     #  Movimiento
     if presion_A:
-        rec_cuatro_brazos.left -= 4
-        if rec_cuatro_brazos.left == -4:
-            rec_cuatro_brazos.left = 0
+        personaje1.rec_personaje.left -= 4
+        if personaje1.rec_personaje.left == -4:
+            personaje1.rec_personaje.left = 0
     if presion_D:
-        rec_cuatro_brazos.left += 4
-        if rec_cuatro_brazos.left == 656:
-            rec_cuatro_brazos.left = 652
+        personaje1.rec_personaje.left += 4
+        if personaje1.rec_personaje.left == 656:
+            personaje1.rec_personaje.left = 652
     if presion_izq:
-        rec_kevin11.left -= 4
-        if rec_kevin11.left == -4:
-            rec_kevin11.left = 0
+        personaje2.rec_personaje.left -= 4
+        if personaje2.rec_personaje.left == -4:
+            personaje2.rec_personaje.left = 0
     if presion_der:
-        rec_kevin11.left += 4
-        if rec_kevin11.left == 656:
-            rec_kevin11.left = 652
+        personaje2.rec_personaje.left += 4
+        if personaje2.rec_personaje.left == 656:
+            personaje2.rec_personaje.left = 652
     #  presión de teclas
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -112,11 +104,11 @@ while True:
             if event.key == pygame.K_z:
                 if pantalla == 1:
                     z_pressed = False
-                    colision_anterior1 = False
+                    personaje1.colision_anterior = False
             if event.key == pygame.K_j:
                 if pantalla == 1:
                     j_pressed = False
-                    colision_anterior2 = False
+                    personaje2.colision_anterior = False
         #  teclas oprimidas
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -161,20 +153,12 @@ while True:
                         print("Saliendo...")
                         exit()
     # colisiones
-    if rec_cuatro_brazos.colliderect(rec_kevin11):
-        colision_actual = rec_cuatro_brazos.colliderect(rec_kevin11)
-        if colision_anterior1 != colision_actual and z_pressed:
-            colision_anterior1 = colision_actual
-            print("atacó jugador 1")
-        if colision_anterior2 != colision_actual and j_pressed:
-            colision_anterior2 = colision_actual
-            print("atacó jugador 2")
-    else:
-        colision_anterior = False
-        colision_actual = False
+    golpe_1 = personaje1.golpear(personaje2.get_rect(), z_pressed)
+    golpe_2 = personaje2.golpear(personaje1.get_rect(), j_pressed)
     if pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif pantalla == 1:
-        pantalla_pvp(fondo_surface, cuatro_brazos, rec_cuatro_brazos, kevin11, rec_kevin11)
+        pantalla_pvp(fondo_surface, personaje1.get_imagen(), personaje1.get_rect(),
+                     personaje2.get_imagen(), personaje2.get_rect())
     pygame.display.update()
     clock.tick(60)
