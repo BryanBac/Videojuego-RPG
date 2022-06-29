@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+import pygame
 
 
 class Factory(metaclass=ABCMeta):
@@ -10,3 +11,6 @@ class Factory(metaclass=ABCMeta):
     def crear_rival(self, eleccion: int):
         raise NotImplementedError
 
+    @abstractmethod
+    def operar_evento(self, event: pygame.event):
+        raise NotImplementedError
