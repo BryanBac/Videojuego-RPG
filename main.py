@@ -152,9 +152,15 @@ while True:
                     if eleccion == 3:
                         print("Saliendo...")
                         exit()
-    # colisiones
-    golpe_1 = personaje1.golpear(personaje2.get_rect(), z_pressed)
-    golpe_2 = personaje2.golpear(personaje1.get_rect(), j_pressed)
+
+    # golpes
+    if personaje1.golpear(personaje2.get_rect(), z_pressed):
+        personaje2.recibir_daño(personaje1.st)
+        # si se quiere comprobar, den un print del hp
+    if personaje2.golpear(personaje1.get_rect(), j_pressed):
+        personaje1.recibir_daño(personaje2.st)
+
+    # pantallas
     if pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif pantalla == 1:

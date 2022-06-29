@@ -39,7 +39,7 @@ class Personaje(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def golpear(self, rectangulo_enemigo, key_pressed: bool) -> int:
+    def golpear(self, rectangulo_enemigo, key_pressed: bool) -> bool:
         pass
 
     @abstractmethod
