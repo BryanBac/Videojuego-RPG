@@ -6,10 +6,14 @@ class Sanador(Personaje):
         super().__init__(hp, mp, st, pos_x, pos_y, h, ruta_imagen)
 
     def izquierda(self):
-        pass
+        self.rec_personaje.left -= 4
+        if self.rec_personaje.left == -4:
+            self.rec_personaje.left = 0
 
     def derecha(self):
-        pass
+        self.rec_personaje.left += 4
+        if self.rec_personaje.left == 656:
+            self.rec_personaje.left = 652
 
     def saltar(self):
         pass

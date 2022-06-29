@@ -73,3 +73,13 @@ class PvpFactory(Factory):
                 self.z_pressed = True
             if event.key == pygame.K_j:
                 self.j_pressed = True
+
+    def movimiento_de_jugadores(self):
+        if self.presion_A:
+            self.jugadores[0].izquierda()
+        if self.presion_D:
+            self.jugadores[0].derecha()
+        if self.presion_izq:
+            self.jugadores[1].izquierda()
+        if self.presion_der:
+            self.jugadores[1].derecha()

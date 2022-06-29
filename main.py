@@ -50,22 +50,8 @@ def pantalla_pvp(fondo, personaje, rect_personaje, villano, rec_villano):
 
 while True:
     #  Movimiento (funciona debido a que inicializada la fabrica, están en false)
-    if fabrica.presion_A:
-        personaje1.rec_personaje.left -= 4
-        if personaje1.rec_personaje.left == -4:
-            personaje1.rec_personaje.left = 0
-    if fabrica.presion_D:
-        personaje1.rec_personaje.left += 4
-        if personaje1.rec_personaje.left == 656:
-            personaje1.rec_personaje.left = 652
-    if fabrica.presion_izq:
-        personaje2.rec_personaje.left -= 4
-        if personaje2.rec_personaje.left == -4:
-            personaje2.rec_personaje.left = 0
-    if fabrica.presion_der:
-        personaje2.rec_personaje.left += 4
-        if personaje2.rec_personaje.left == 656:
-            personaje2.rec_personaje.left = 652
+    if mecanica.pantalla == 1:
+        fabrica.movimiento_de_jugadores()
     # manejo de eventos
     for event in pygame.event.get():
         mecanica.operar_evento(event)
@@ -75,21 +61,19 @@ while True:
             if not fabrica.personajes_creados:
                 fabrica.crear_jugador(1)
                 fabrica.crear_rival(2)
-                personaje1 = fabrica.jugadores[0]
-                personaje2 = fabrica.jugadores[1]
     # pantallas y acciones de impresion en ellas
     if mecanica.pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif mecanica.pantalla == 1:
         # golpes
-        if personaje1.golpear(personaje2.get_rect(), fabrica.z_pressed):
-            personaje2.recibir_daño(personaje1.st)
-            print(f"P2 HP: {personaje2.hp}")
-        if personaje2.golpear(personaje1.get_rect(), fabrica.j_pressed):
-            personaje1.recibir_daño(personaje2.st)
-            print(f"P1 HP: {personaje1.hp}")
+        if fabrica.jugadores[0].golpear(fabrica.jugadores[1].get_rect(), fabrica.z_pressed):
+            fabrica.jugadores[1].recibir_daño(fabrica.jugadores[0].st)
+            print(f"P2 HP: {fabrica.jugadores[1].hp}")
+        if fabrica.jugadores[1].golpear(fabrica.jugadores[0].get_rect(), fabrica.j_pressed):
+            fabrica.jugadores[0].recibir_daño(fabrica.jugadores[1].st)
+            print(f"P1 HP: {fabrica.jugadores[0].hp}")
         # impresion en pantalla
-        pantalla_pvp(fondo_surface, personaje1.get_imagen(), personaje1.get_rect(),
-                     personaje2.get_imagen(), personaje2.get_rect())
+        pantalla_pvp(fondo_surface, fabrica.jugadores[0].get_imagen(), fabrica.jugadores[0].get_rect(),
+                     fabrica.jugadores[1].get_imagen(), fabrica.jugadores[1].get_rect())
     pygame.display.update()
     clock.tick(60)
