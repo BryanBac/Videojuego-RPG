@@ -14,3 +14,11 @@ class Factory(metaclass=ABCMeta):
     @abstractmethod
     def operar_evento(self, event: pygame.event):
         raise NotImplementedError
+
+    @abstractmethod
+    def movimiento_de_jugadores(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def daño(self):
+        raise NotImplementedError

@@ -65,13 +65,7 @@ while True:
     if mecanica.pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif mecanica.pantalla == 1:
-        # golpes
-        if fabrica.jugadores[0].golpear(fabrica.jugadores[1].get_rect(), fabrica.z_pressed):
-            fabrica.jugadores[1].recibir_daño(fabrica.jugadores[0].st)
-            print(f"P2 HP: {fabrica.jugadores[1].hp}")
-        if fabrica.jugadores[1].golpear(fabrica.jugadores[0].get_rect(), fabrica.j_pressed):
-            fabrica.jugadores[0].recibir_daño(fabrica.jugadores[1].st)
-            print(f"P1 HP: {fabrica.jugadores[0].hp}")
+        fabrica.daño()
         # impresion en pantalla
         pantalla_pvp(fondo_surface, fabrica.jugadores[0].get_imagen(), fabrica.jugadores[0].get_rect(),
                      fabrica.jugadores[1].get_imagen(), fabrica.jugadores[1].get_rect())

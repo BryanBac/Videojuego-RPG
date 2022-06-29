@@ -26,7 +26,7 @@ class PvpFactory(Factory):
         elif eleccion == 2:
             jugador1 = Guerrero(10, 10, 10, 150, 180, 180, "assets/guerrero.png")
         else:
-            jugador1 = Mago(10, 10, 10, 656-150, 250, 180, "assets/sanador.png")  # imagen provisional
+            jugador1 = Mago(10, 10, 10, 656-150, 250, 180, "assets/sanador.png")
         self.jugadores.append(jugador1)
 
     def crear_rival(self, eleccion: int):
@@ -36,7 +36,7 @@ class PvpFactory(Factory):
         elif eleccion == 2:
             jugador2 = Guerrero(10, 10, 10, 150, 180, 180, "assets/guerrero.png")
         else:
-            jugador2 = Mago(10, 10, 10, 656 - 150, 250, 180, "assets/sanador.png")  # imagen provisional
+            jugador2 = Mago(10, 10, 10, 656 - 150, 250, 180, "assets/sanador.png")
         self.jugadores.append(jugador2)
 
     def operar_evento(self, event: pygame.event):
@@ -83,3 +83,11 @@ class PvpFactory(Factory):
             self.jugadores[1].izquierda()
         if self.presion_der:
             self.jugadores[1].derecha()
+
+    def daño(self):
+        if self.jugadores[0].golpear(self.jugadores[1].get_rect(), self.z_pressed):
+            self.jugadores[1].recibir_daño(self.jugadores[0].st)
+            print(f"P2 HP: {self.jugadores[1].hp}")
+        if self.jugadores[1].golpear(self.jugadores[0].get_rect(), self.j_pressed):
+            self.jugadores[0].recibir_daño(self.jugadores[1].st)
+            print(f"P1 HP: {self.jugadores[0].hp}")
