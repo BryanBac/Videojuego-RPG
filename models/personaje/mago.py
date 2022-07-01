@@ -37,7 +37,6 @@ class Mago(Personaje):
         self.invertir()
         rectangulo = self.rec_personaje
         self.rec_personaje = self.personaje.get_rect(midbottom=rectangulo.midbottom)
-        self.animando = True
 
     def detener_animacion(self):
         self.__animacion = self.__base

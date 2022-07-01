@@ -22,7 +22,6 @@ class Guerrero(Personaje):
         self.__animacion: list[str] = self.__base
         self.ver_izq: bool = False
         self.saltando: bool = False
-        self.animando: bool = False
 
     def invertir(self):
         if self.ver_izq:
@@ -35,13 +34,11 @@ class Guerrero(Personaje):
         self.invertir()
         rectangulo = self.rec_personaje
         self.rec_personaje = self.personaje.get_rect(midbottom=rectangulo.midbottom)
-        self.animando = True
 
     def detener_animacion(self):
         self.__animacion = self.__base
         self.__indice = 0
         self.animar()
-        self.animando = False
 
     def animar_ataque(self):
         self.__animacion = self.__ataque
@@ -51,9 +48,8 @@ class Guerrero(Personaje):
         self.animar()
 
     def izquierda(self):
-        if not self.animando:
-            self.__animacion = self.__caminar
-            self.__indice += 0.08
+        self.__animacion = self.__caminar
+        self.__indice += 0.08
         if int(self.__indice) >= len(self.__caminar):
             self.__indice = 0
         self.ver_izq = True
@@ -63,9 +59,8 @@ class Guerrero(Personaje):
             self.rec_personaje.left = 0
 
     def derecha(self):
-        if not self.animando:
-            self.__animacion = self.__caminar
-            self.__indice += 0.08
+        self.__animacion = self.__caminar
+        self.__indice += 0.08
         if int(self.__indice) >= len(self.__caminar):
             self.__indice = 0
         self.ver_izq = False

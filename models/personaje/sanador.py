@@ -22,7 +22,6 @@ class Sanador(Personaje):
         self.__animacion: list[str] = self.__base
         self.ver_izq: bool = False  # Invierte la imagen para que vea a la izquierda
         self.saltando: bool = False  # Evita múltiples saltos
-        self.animando: bool = False  # Evita conflictos al avanzar y saltar
 
     # Invierte la imagen
     def invertir(self):
@@ -37,14 +36,12 @@ class Sanador(Personaje):
         self.invertir()
         rectangulo = self.rec_personaje
         self.rec_personaje = self.personaje.get_rect(midbottom=rectangulo.midbottom)
-        self.animando = True
 
     # Regresa la imagen a la base, ademas de reiniciar el índice
     def detener_animacion(self):
         self.__animacion = self.__base
         self.__indice = 0
         self.animar()
-        self.animando = False
 
     # La animación depende de otras condiciones para ocurrir, por eso esta en un método diferente
     def animar_ataque(self):
@@ -55,9 +52,8 @@ class Sanador(Personaje):
         self.animar()
 
     def izquierda(self):
-        if not self.animando:
-            self.__animacion = self.__caminar
-            self.__indice += 0.08
+        self.__animacion = self.__caminar
+        self.__indice += 0.08
         if int(self.__indice) >= len(self.__caminar):
             self.__indice = 0
         self.ver_izq = True
@@ -67,9 +63,8 @@ class Sanador(Personaje):
             self.rec_personaje.left = 0
 
     def derecha(self):
-        if not self.animando:
-            self.__animacion = self.__caminar
-            self.__indice += 0.08
+        self.__animacion = self.__caminar
+        self.__indice += 0.08
         if int(self.__indice) >= len(self.__caminar):
             self.__indice = 0
         self.ver_izq = False
