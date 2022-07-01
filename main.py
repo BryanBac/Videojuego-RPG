@@ -2,6 +2,8 @@ import pygame
 from mecanicas.mechanical import Mechanical
 from Abstrac_factory.factory import Factory
 from Abstrac_factory.pvp_factory import PvpFactory
+from Abstrac_factory.pc_factory import PCFactory
+
 
 pygame.init()
 ancho = 800
@@ -21,6 +23,7 @@ indice_fondo: int = 0
 
 #  Fabricas y mecanicas de pantallas
 fabrica: Factory = PvpFactory()
+fabrica_pc: Factory = PCFactory()
 mecanica: Mechanical = Mechanical()
 
 
@@ -57,6 +60,9 @@ while True:
     #  Movimiento (funciona debido a que inicializada la fabrica, están en false)
     if mecanica.pantalla == 1:
         fabrica.movimiento_de_jugadores()
+    if mecanica.pantalla == 2:
+        fabrica_pc.movimiento_de_jugadores()
+        fabrica_pc.ataque_enemigo()
     # manejo de eventos
     for event in pygame.event.get():
         mecanica.operar_evento(event)
@@ -65,7 +71,12 @@ while True:
             fabrica.operar_evento(event)
             if not fabrica.personajes_creados:
                 fabrica.crear_jugador(1)
-                fabrica.crear_rival(3)
+                fabrica.crear_rival(2)
+        if mecanica.pantalla == 2:
+            if not fabrica_pc.personajes_creados:
+                fabrica_pc.crear_jugador(1)
+                fabrica_pc.crear_rival()
+            fabrica_pc.operar_evento(event)
     # pantallas y acciones de impresion en ellas
     if mecanica.pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
@@ -77,5 +88,12 @@ while True:
             indice_fondo = 0
         pantalla_pvp(fabrica.jugadores[0].get_imagen(), fabrica.jugadores[0].get_rect(),
                      fabrica.jugadores[1].get_imagen(), fabrica.jugadores[1].get_rect())
+    elif mecanica.pantalla == 2:
+        fabrica_pc.daño()
+        indice_fondo += 0.02
+        if int(indice_fondo) == 3:
+            indice_fondo = 0
+        pantalla_pvp(fabrica_pc.jugadores[0].get_imagen(), fabrica_pc.jugadores[0].get_rect(),
+                     fabrica_pc.jugadores[1].get_imagen(), fabrica_pc.jugadores[1].get_rect())
     pygame.display.update()
     clock.tick(60)
