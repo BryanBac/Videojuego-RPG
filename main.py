@@ -16,9 +16,8 @@ text_surface2 = test_font.render("PC", False, "White")
 text_surface3 = test_font.render("Salir", False, "White")
 
 #  imagenes -- Estas son de prueba para ver como funciddddddddddddona esto
-fondo_surface = pygame.image.load("assets/fondo.jpg").convert()
-piso_surface = pygame.image.load("assets/ch.png").convert()
-piso_surface = pygame.transform.scale(piso_surface, (ancho, 50))
+fondo_surface = pygame.image.load("Assets/Otros/Fondo_1.png").convert()
+indice_fondo: int = 0
 
 #  Fabricas y mecanicas de pantallas
 fabrica: Factory = PvpFactory()
@@ -41,9 +40,15 @@ def pantalla_inicio(text_surface1, text_surface2, text_surface3):
     screen.blit(text_surface3, (ancho / 3, alto / 3 + 100))
 
 
-def pantalla_pvp(fondo, personaje, rect_personaje, villano, rec_villano):
+def pantalla_pvp(personaje, rect_personaje, villano, rec_villano):
+    fondos = [
+        "Assets/Otros/Fondo_1.png",
+        "Assets/Otros/Fondo_2.png",
+        "Assets/Otros/Fondo_3.png",
+        "Assets/Otros/Fondo_2.png",
+    ]
+    fondo = pygame.image.load(fondos[int(indice_fondo)]).convert()
     screen.blit(fondo, (0, 0))
-    screen.blit(piso_surface, (0, 350))
     screen.blit(personaje, rect_personaje)
     screen.blit(villano, rec_villano)
 
@@ -60,14 +65,17 @@ while True:
             fabrica.operar_evento(event)
             if not fabrica.personajes_creados:
                 fabrica.crear_jugador(1)
-                fabrica.crear_rival(2)
+                fabrica.crear_rival(3)
     # pantallas y acciones de impresion en ellas
     if mecanica.pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif mecanica.pantalla == 1:
         fabrica.daño()
         # impresion en pantalla
-        pantalla_pvp(fondo_surface, fabrica.jugadores[0].get_imagen(), fabrica.jugadores[0].get_rect(),
+        indice_fondo += 0.02
+        if int(indice_fondo) == 3:
+            indice_fondo = 0
+        pantalla_pvp(fabrica.jugadores[0].get_imagen(), fabrica.jugadores[0].get_rect(),
                      fabrica.jugadores[1].get_imagen(), fabrica.jugadores[1].get_rect())
     pygame.display.update()
     clock.tick(60)
