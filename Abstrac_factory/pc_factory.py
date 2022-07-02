@@ -37,9 +37,9 @@ class PCFactory(Factory):
         eleccion: int = random.randint(0, 1)
         jugador2: Enemy
         if eleccion == 1:
-            jugador2 = Jefe(10, 10, 10, 150, 365, 180, "Assets/Caballero/Base.png")
+            jugador2 = Jefe(10, 10, 10, 150, 365, 180, "Assets/Enemigo/Base.png")
         else:
-            jugador2 = Mob1(10, 10, 5, 150, 365, 180, "Assets/Caballero/Base.png")
+            jugador2 = Mob1(10, 10, 5, 150, 365, 180, "Assets/Mago/Base.png")
         self.jugadores.append(jugador2)
 
     def operar_evento(self, event: pygame.event):

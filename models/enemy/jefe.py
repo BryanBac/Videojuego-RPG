@@ -7,17 +7,20 @@ class Jefe(Enemy):
     def __init__(self, hp, mp, st, pos_x, pos_y, h, ruta_imagen: str):
         super().__init__(hp, mp, st, pos_x, pos_y, h, ruta_imagen)
         # Comentarios de animación en la clase sanador
-        self.__base: list[str] = ["Assets/Caballero/Base.png"]
-        self.__ataque: list[str] = ["Assets/Caballero/Ataque.png"]
+        self.__base: list[str] = ["Assets/Enemigo/Base.png"]
+        self.__ataque: list[str] = [
+            "Assets/Enemigo/Ataque_1.png",
+            "Assets/Enemigo/Ataque_2.png"
+        ]
         self.__caminar: list[str] = [
-            "Assets/Caballero/Paso_derecha.png",
-            "Assets/Caballero/Base.png",
-            "Assets/Caballero/Paso_izquierda.png",
-            "Assets/Caballero/Base.png",
+            "Assets/Enemigo/Paso_derecha.png",
+            "Assets/Enemigo/Base.png",
+            "Assets/Enemigo/Paso_izquierda.png",
+            "Assets/Enemigo/Base.png",
         ]
         self.__saltar: list[str] = [
-            "Assets/Caballero/Salto_1.png",
-            "Assets/Caballero/Salto_2.png",
+            "Assets/Enemigo/Salto_1.png",
+            "Assets/Enemigo/Salto_2.png",
         ]
         self.__indice: float = 0
         self.__animacion: list[str] = self.__base
