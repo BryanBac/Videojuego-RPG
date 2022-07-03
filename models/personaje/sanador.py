@@ -59,7 +59,7 @@ class Sanador(Personaje):
         self.ver_izq = True
         self.animar()
         self.rec_personaje.left -= 4
-        if self.rec_personaje.left == -4:
+        if self.rec_personaje.left < 0:
             self.rec_personaje.left = 0
 
     def derecha(self):
@@ -70,8 +70,8 @@ class Sanador(Personaje):
         self.ver_izq = False
         self.animar()
         self.rec_personaje.left += 4
-        if self.rec_personaje.left == 656:
-            self.rec_personaje.left = 652
+        if self.rec_personaje.left > 656:
+            self.rec_personaje.left = 656
 
     # Solo afecta la gravedad e indica que el jugador está saltando para evitar múltiples saltos
     def saltar(self):

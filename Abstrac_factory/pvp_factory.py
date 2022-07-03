@@ -24,21 +24,21 @@ class PvpFactory(Factory):
     def crear_jugador(self, eleccion: int):
         jugador1: Personaje
         if eleccion == 1:
-            jugador1 = Sanador(10, 10, 10, 656-150, 365, 180, "Assets/Sanador/Base.png")
+            jugador1 = Sanador(10, 10, 10, 150, 365, 180, "Assets/Sanador/Base.png")
         elif eleccion == 2:
             jugador1 = Guerrero(10, 10, 10, 150, 365, 180, "Assets/Caballero/Base.png")
         else:
-            jugador1 = Mago(10, 10, 10, 656-150, 365, 180, "Assets/Mago/Base.png")
+            jugador1 = Mago(10, 10, 10, 150, 365, 180, "Assets/Mago/Base.png")
         self.jugadores.append(jugador1)
 
     def crear_rival(self, eleccion: int):
         jugador2: Personaje
         if eleccion == 1:
-            jugador2 = Sanador(10, 10, 10, 656 - 150, 365, 180, "Assets/Sanador/Base.png")
+            jugador2 = Sanador(10, 10, 10, 656, 365, 180, "Assets/Sanador/Base.png")
         elif eleccion == 2:
-            jugador2 = Guerrero(10, 10, 10, 150, 365, 180, "Assets/Caballero/Base.png")
+            jugador2 = Guerrero(10, 10, 10, 656, 365, 180, "Assets/Caballero/Base.png")
         else:
-            jugador2 = Mago(10, 10, 10, 656 - 150, 365, 180, "Assets/Mago/Base.png")
+            jugador2 = Mago(10, 10, 10, 656, 365, 180, "Assets/Mago/Base.png")
         self.jugadores.append(jugador2)
 
     def operar_evento(self, event: pygame.event):

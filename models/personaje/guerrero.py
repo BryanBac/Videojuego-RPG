@@ -54,8 +54,9 @@ class Guerrero(Personaje):
             self.__indice = 0
         self.ver_izq = True
         self.animar()
+        print(self.rec_personaje.left)
         self.rec_personaje.left -= 4
-        if self.rec_personaje.left == -4:
+        if self.rec_personaje.left < 0:
             self.rec_personaje.left = 0
 
     def derecha(self):
@@ -66,8 +67,8 @@ class Guerrero(Personaje):
         self.ver_izq = False
         self.animar()
         self.rec_personaje.left += 4
-        if self.rec_personaje.left == 656:
-            self.rec_personaje.left = 652
+        if self.rec_personaje.left > 656:
+            self.rec_personaje.left = 656
 
     def saltar(self):
         if not self.saltando:
