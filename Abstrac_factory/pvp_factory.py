@@ -61,11 +61,12 @@ class PvpFactory(Factory):
                 self.jugadores[0].detener_animacion()
             if event.key == pygame.K_z:
                 self.z_pressed = False
-                self.jugadores[1].detener_animacion()
-            if event.key == pygame.K_j:
-                self.j_pressed = False
                 self.jugadores[0].detener_animacion()
                 self.jugadores[0].colision_anterior = False
+            if event.key == pygame.K_j:
+                self.j_pressed = False
+                self.jugadores[1].detener_animacion()
+                self.jugadores[1].colision_anterior = False
 
         #  teclas oprimidas
         if event.type == pygame.KEYDOWN:
@@ -107,9 +108,9 @@ class PvpFactory(Factory):
     def daño(self):
         if self.jugadores[0].golpear(self.jugadores[1].get_rect(), self.z_pressed):
             self.jugadores[1].recibir_daño(self.jugadores[0].st)
-            self.jugadores[1].animar_ataque()
+            self.jugadores[0].animar_ataque()
             print(f"P2 HP: {self.jugadores[1].hp}")
         if self.jugadores[1].golpear(self.jugadores[0].get_rect(), self.j_pressed):
             self.jugadores[0].recibir_daño(self.jugadores[1].st)
-            self.jugadores[0].animar_ataque()
+            self.jugadores[1].animar_ataque()
             print(f"P1 HP: {self.jugadores[0].hp}")

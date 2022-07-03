@@ -2,6 +2,7 @@ import pygame
 from mecanicas.mechanical import Mechanical
 from Abstrac_factory.factory import Factory
 from Abstrac_factory.pvp_factory import PvpFactory
+from Abstrac_factory.pc_factory import PCFactory
 from mecanicas.seleccion import MechanicalSeleccion
 
 pygame.init()
@@ -19,11 +20,13 @@ text_surface4 = test_font.render("Sanador", False, "White")
 text_surface5 = test_font.render("Guerrero", False, "White")
 text_surface6 = test_font.render("Mago", False, "White")
 
+#  imagenes -- Estas son de prueba para ver como funciddddddddddddona esto
 fondo_surface = pygame.image.load("Assets/Otros/Fondo_1.png").convert()
 indice_fondo: int = 0
 
 #  Fabricas y mecanicas de pantallas
 fabrica: Factory = PvpFactory()
+fabrica_pc: Factory = PCFactory()
 mecanica: Mechanical = Mechanical()
 mecanica_seleccion: MechanicalSeleccion = MechanicalSeleccion()
 mecanica_seleccion_2: MechanicalSeleccion = MechanicalSeleccion()
@@ -32,8 +35,7 @@ personaje_2: int = 0
 creados: bool = False
 
 
-def pantalla_inicio():
-    global text_surface1, text_surface2, text_surface3
+def pantalla_inicio(text_surface1, text_surface2, text_surface3):
     if mecanica.eleccion == 1:
         text_surface2 = test_font.render("PC", False, "White")
         text_surface1 = test_font.render("PvP", False, "Cyan")
@@ -160,35 +162,65 @@ while True:
     if mecanica.pantalla == 1:
         if creados:
             fabrica.movimiento_de_jugadores()
+    if mecanica.pantalla == 2:
+        if creados:
+            fabrica_pc.movimiento_de_jugadores()
+            fabrica_pc.ataque_enemigo()
     # manejo de eventos
     for event in pygame.event.get():
         mecanica.operar_evento(event)
         if mecanica.pantalla == 1:
             if personaje_1 == 0:
                 mecanica_seleccion.operar_evento(event)
-            elif personaje_1 != 0:
-                if personaje_2 == 0:
-                    mecanica_seleccion_2.operar_evento(event)
-                elif personaje_2 != 0:
-                    fabrica.operar_evento(event)
-                    if not fabrica.personajes_creados:
-                        fabrica.crear_jugador(personaje_1)
-                        fabrica.crear_rival(personaje_2)
-                        creados = True
+            elif personaje_1 != 0 and personaje_2 == 0:
+                mecanica_seleccion_2.operar_evento(event)
+            else:
+                fabrica.operar_evento(event)
+                if not fabrica.personajes_creados:
+                    fabrica.crear_jugador(personaje_1)
+                    fabrica.crear_rival(personaje_2)
+                    creados = True
+        if mecanica.pantalla == 2:
+            if personaje_1 == 0:
+                mecanica_seleccion.operar_evento(event)
+            else:
+                if not fabrica_pc.personajes_creados:
+                    fabrica_pc.crear_jugador(personaje_1)
+                    fabrica_pc.crear_rival()
+                    creados = True
+                fabrica_pc.operar_evento(event)
     # pantallas y acciones de impresion en ellas
     if mecanica.pantalla == 0:
-        pantalla_inicio()
+        pantalla_inicio(text_surface1, text_surface2, text_surface3)
     elif mecanica.pantalla == 1:
-        pantalla_seleccion('Selección personaje - Jugador 1')
-        if mecanica_seleccion.personaje == 1:
-            personaje_1 = 1
-            seleccionar_segundo()
-        elif mecanica_seleccion.personaje == 2:
-            personaje_1 = 2
-            seleccionar_segundo()
-        elif mecanica_seleccion.personaje == 3:
-            personaje_1 = 3
-            seleccionar_segundo()
-
+        if not creados:
+            pantalla_seleccion('Selección personaje - Jugador 1')
+            if mecanica_seleccion.personaje == 1:
+                personaje_1 = 1
+                seleccionar_segundo()
+            elif mecanica_seleccion.personaje == 2:
+                personaje_1 = 2
+                seleccionar_segundo()
+            elif mecanica_seleccion.personaje == 3:
+                personaje_1 = 3
+                seleccionar_segundo()
+        else:
+            modo1()
+    elif mecanica.pantalla == 2:
+        if not creados:
+            pantalla_seleccion('Selección personaje - Jugador 1')
+            if mecanica_seleccion.personaje == 1:
+                personaje_1 = 1
+            elif mecanica_seleccion.personaje == 2:
+                personaje_1 = 2
+            elif mecanica_seleccion.personaje == 3:
+                personaje_1 = 3
+        else:
+            fabrica_pc.daño()
+            indice_fondo += 0.02
+            if int(indice_fondo) == 3:
+                indice_fondo = 0
+            pantalla_pvp(fabrica_pc.jugadores[0].get_imagen(), fabrica_pc.jugadores[0].get_rect(),
+                         fabrica_pc.jugadores[1].get_imagen(), fabrica_pc.jugadores[1].get_rect())
     pygame.display.update()
     clock.tick(60)
