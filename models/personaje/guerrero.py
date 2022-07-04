@@ -54,7 +54,7 @@ class Guerrero(Personaje):
             self.__indice = 0
         self.ver_izq = True
         self.animar()
-        print(self.rec_personaje.left)
+        # print(self.rec_personaje.left)
         self.rec_personaje.left -= 4
         if self.rec_personaje.left < 0:
             self.rec_personaje.left = 0

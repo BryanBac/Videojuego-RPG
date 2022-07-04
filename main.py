@@ -4,6 +4,7 @@ from Abstrac_factory.factory import Factory
 from Abstrac_factory.pvp_factory import PvpFactory
 from Abstrac_factory.pc_factory import PCFactory
 from mecanicas.seleccion import MechanicalSeleccion
+from typing import List
 
 pygame.init()
 ancho = 800
@@ -19,6 +20,11 @@ text_surface3 = test_font.render("Salir", False, "White")
 text_surface4 = test_font.render("Sanador", False, "White")
 text_surface5 = test_font.render("Guerrero", False, "White")
 text_surface6 = test_font.render("Mago", False, "White")
+
+#  Puntajes
+test_font2 = pygame.font.SysFont("Curier", 32)
+puntajej1 = test_font2.render("Jugador 1:", False, "Red")
+puntajej2 = test_font2.render("Jugador 2:", False, "Blue")
 
 #  imagenes -- Estas son de prueba para ver como funciddddddddddddona esto
 fondo_surface = pygame.image.load("Assets/Otros/Fondo_1.png").convert()
@@ -117,7 +123,7 @@ def pantalla_seleccion_2(texto: str):
     screen.blit(text_surface6, (ancho / 3, alto / 3 + 150))
 
 
-def pantalla_pvp(personaje, rect_personaje, villano, rec_villano):
+def pantalla_pvp(personaje, rect_personaje, villano, rec_villano, daños):
     fondos = [
         "Assets/Otros/Fondo_1.png",
         "Assets/Otros/Fondo_2.png",
@@ -128,19 +134,31 @@ def pantalla_pvp(personaje, rect_personaje, villano, rec_villano):
     screen.blit(fondo, (0, 0))
     screen.blit(personaje, rect_personaje)
     screen.blit(villano, rec_villano)
+    # Puntajes
+    puntaje1 = test_font.render(str(daños[1]), False, "White")
+    puntaje2 = test_font.render(str(daños[0]), False, "White")
+    screen.blit(puntajej1, (10, 10))
+    screen.blit(puntajej2, (640, 10))
+    screen.blit(puntaje1, (125, 12))
+    screen.blit(puntaje2, (755, 12))
+
+    pygame.draw.rect(screen, (255, 0, 0), (10, 40, 200, 10))
+    pygame.draw.rect(screen, (255, 0, 0), (585, 40, 200, 10))
+    pygame.draw.rect(screen, (0, 128, 0), (10, 40, daños[1], 10))
+    pygame.draw.rect(screen, (0, 128, 0), (585, 40, daños[0], 10))
 
 
 def modo1():
     global creados, indice_fondo
     # una vez terminada la partida, solo debemos cambiar el valor de mecanica.pantalla
     if creados:
-        fabrica.daño()
+        daños: List[int] = fabrica.daño()
         # impresion en pantalla
         indice_fondo += 0.02
         if int(indice_fondo) == 3:
             indice_fondo = 0
         pantalla_pvp(fabrica.jugadores[0].get_imagen(), fabrica.jugadores[0].get_rect(),
-                     fabrica.jugadores[1].get_imagen(), fabrica.jugadores[1].get_rect())
+                     fabrica.jugadores[1].get_imagen(), fabrica.jugadores[1].get_rect(), daños)
 
 
 def seleccionar_segundo():
@@ -216,11 +234,11 @@ while True:
             elif mecanica_seleccion.personaje == 3:
                 personaje_1 = 3
         else:
-            fabrica_pc.daño()
+            daño: List[int] = fabrica_pc.daño()
             indice_fondo += 0.02
             if int(indice_fondo) == 3:
                 indice_fondo = 0
             pantalla_pvp(fabrica_pc.jugadores[0].get_imagen(), fabrica_pc.jugadores[0].get_rect(),
-                         fabrica_pc.jugadores[1].get_imagen(), fabrica_pc.jugadores[1].get_rect())
+                         fabrica_pc.jugadores[1].get_imagen(), fabrica_pc.jugadores[1].get_rect(), daño)
     pygame.display.update()
     clock.tick(60)
