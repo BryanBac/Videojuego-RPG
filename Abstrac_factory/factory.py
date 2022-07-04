@@ -22,3 +22,15 @@ class Factory(metaclass=ABCMeta):
     @abstractmethod
     def daño(self):
         raise NotImplementedError
+
+    @abstractmethod
+    def obtener_ganador(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def partida_terminada(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def limpiar(self):
+        raise NotImplementedError

@@ -9,6 +9,7 @@ class Mechanical:
         self.pantalla: int = 0
         #  0 va a ser ningua, 1 pvp, 2 pvPC
         self.tipo_lucha: int = 0
+        self.finalizado: bool = False
 
     def operar_evento(self, event):
         if event.type == pygame.QUIT:
@@ -37,3 +38,8 @@ class Mechanical:
                     if self.eleccion == 3:
                         print("Saliendo...")
                         exit()
+                if self.finalizado:
+                    self.eleccion = 1
+                    self.pantalla = 0
+                    self.tipo_lucha = 0
+                    self.finalizado = False

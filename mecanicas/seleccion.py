@@ -29,3 +29,7 @@ class MechanicalSeleccion:
                     self.personaje = 2
                 if self.eleccion == 3:
                     self.personaje = 3
+
+    def finalizdo(self):
+        self.eleccion = 0
+        self.personaje = 0

@@ -25,6 +25,7 @@ text_surface6 = test_font.render("Mago", False, "White")
 test_font2 = pygame.font.SysFont("Curier", 32)
 puntajej1 = test_font2.render("Jugador 1:", False, "Red")
 puntajej2 = test_font2.render("Jugador 2:", False, "Blue")
+ganador_partida: str = ""
 
 #  imagenes -- Estas son de prueba para ver como funciddddddddddddona esto
 fondo_surface = pygame.image.load("Assets/Otros/Fondo_1.png").convert()
@@ -42,6 +43,8 @@ creados: bool = False
 
 
 def pantalla_inicio(text_surface1, text_surface2, text_surface3):
+    fondo = pygame.image.load("Assets/Otros/Fondo_4.png").convert()
+    screen.blit(fondo, (0, 0))
     if mecanica.eleccion == 1:
         text_surface2 = test_font.render("PC", False, "White")
         text_surface1 = test_font.render("PvP", False, "Cyan")
@@ -175,15 +178,28 @@ def seleccionar_segundo():
         modo1()
 
 
+def pantalla_vencedor():
+    test_font3 = pygame.font.SysFont("Curier", 48)
+    test_font4 = pygame.font.SysFont("Curier", 32)
+    vencedor = test_font3.render(f"Gana {ganador_partida}", False, "White")
+    continuar = test_font4.render("Presione Enter parac continuar", False, "White")
+    screen.blit(continuar, (ancho / 2 - 125, 7 * alto / 8))
+    screen.blit(vencedor, (ancho / 2 - 125, alto / 2 - 100))
+
+
 while True:
     #  Movimiento (funciona debido a que inicializada la fabrica, están en false)
     if mecanica.pantalla == 1:
         if creados:
             fabrica.movimiento_de_jugadores()
+            if fabrica.partida_terminada():
+                pantalla_vencedor()
     if mecanica.pantalla == 2:
         if creados:
             fabrica_pc.movimiento_de_jugadores()
             fabrica_pc.ataque_enemigo()
+            if fabrica_pc.partida_terminada():
+                pantalla_vencedor()
     # manejo de eventos
     for event in pygame.event.get():
         mecanica.operar_evento(event)
@@ -210,6 +226,13 @@ while True:
     # pantallas y acciones de impresion en ellas
     if mecanica.pantalla == 0:
         pantalla_inicio(text_surface1, text_surface2, text_surface3)
+        fabrica.limpiar()
+        fabrica_pc.limpiar()
+        mecanica_seleccion.finalizdo()
+        mecanica_seleccion_2.finalizdo()
+        personaje_1 = 0
+        personaje_2 = 0
+        creados = False
     elif mecanica.pantalla == 1:
         if not creados:
             pantalla_seleccion('Selección personaje - Jugador 1')
@@ -222,8 +245,11 @@ while True:
             elif mecanica_seleccion.personaje == 3:
                 personaje_1 = 3
                 seleccionar_segundo()
-        else:
+        elif creados and not fabrica.partida_terminada():
             modo1()
+            if fabrica.partida_terminada():
+                ganador_partida = fabrica.obtener_ganador()
+                mecanica.finalizado = True
     elif mecanica.pantalla == 2:
         if not creados:
             pantalla_seleccion('Selección personaje - Jugador 1')
@@ -233,12 +259,15 @@ while True:
                 personaje_1 = 2
             elif mecanica_seleccion.personaje == 3:
                 personaje_1 = 3
-        else:
+        elif creados and not fabrica_pc.partida_terminada():
             daño: List[int] = fabrica_pc.daño()
             indice_fondo += 0.02
             if int(indice_fondo) == 3:
                 indice_fondo = 0
             pantalla_pvp(fabrica_pc.jugadores[0].get_imagen(), fabrica_pc.jugadores[0].get_rect(),
                          fabrica_pc.jugadores[1].get_imagen(), fabrica_pc.jugadores[1].get_rect(), daño)
+            if fabrica_pc.partida_terminada():
+                ganador_partida = fabrica_pc.obtener_ganador()
+                mecanica.finalizado = True
     pygame.display.update()
     clock.tick(60)

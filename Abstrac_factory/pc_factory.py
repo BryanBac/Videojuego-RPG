@@ -99,3 +99,28 @@ class PCFactory(Factory):
                 self.jugadores[1].animar_ataque()
                 self.daños[1] = self.jugadores[0].hp
         return self.daños
+
+    def obtener_ganador(self):
+        if self.jugadores[0].hp <= 0 < self.jugadores[1].hp:
+            return "Jugador 2"
+        elif self.jugadores[1].hp <= 0 < self.jugadores[0].hp:
+            return "Jugador 1"
+        else:
+            return "Emapte"
+
+    def partida_terminada(self):
+        if self.jugadores[0].hp <= 0 or self.jugadores[1].hp <= 0:
+            return True
+        else:
+            return False
+
+    def limpiar(self):
+        self.jugadores: List[Personaje] = []
+        self.presion_izq: bool = False
+        self.presion_der: bool = False
+        self.j_pressed: bool = False
+        self.presion_arriba: bool = False
+        self.personajes_creados: bool = False
+        self.dañaron_jugador: bool = False
+        self.personajes_creados: bool = False
+        self.daños: List[int] = []
