@@ -182,7 +182,7 @@ def pantalla_vencedor():
     test_font3 = pygame.font.SysFont("Curier", 48)
     test_font4 = pygame.font.SysFont("Curier", 32)
     vencedor = test_font3.render(f"Gana {ganador_partida}", False, "White")
-    continuar = test_font4.render("Presione Enter parac continuar", False, "White")
+    continuar = test_font4.render("Presione Enter para continuar", False, "White")
     screen.blit(continuar, (ancho / 2 - 125, 7 * alto / 8))
     screen.blit(vencedor, (ancho / 2 - 125, alto / 2 - 100))
 
