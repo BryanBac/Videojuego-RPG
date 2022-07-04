@@ -20,26 +20,29 @@ class PvpFactory(Factory):
         self.presion_arriba: bool = False
         self.presion_W: bool = False
         self.personajes_creados: bool = False
+        self.daños: List[int] = []
 
     def crear_jugador(self, eleccion: int):
         jugador1: Personaje
         if eleccion == 1:
-            jugador1 = Sanador(10, 10, 10, 150, 365, 180, "Assets/Sanador/Base.png")
+            jugador1 = Sanador(200, 10, 10, 150, 365, 180, "Assets/Sanador/Base.png")
         elif eleccion == 2:
-            jugador1 = Guerrero(10, 10, 10, 150, 365, 180, "Assets/Caballero/Base.png")
+            jugador1 = Guerrero(200, 10, 10, 150, 365, 180, "Assets/Caballero/Base.png")
         else:
-            jugador1 = Mago(10, 10, 10, 150, 365, 180, "Assets/Mago/Base.png")
+            jugador1 = Mago(200, 10, 10, 150, 365, 180, "Assets/Mago/Base.png")
         self.jugadores.append(jugador1)
+        self.daños.append(self.jugadores[0].hp)
 
     def crear_rival(self, eleccion: int):
         jugador2: Personaje
         if eleccion == 1:
-            jugador2 = Sanador(10, 10, 10, 656, 365, 180, "Assets/Sanador/Base.png")
+            jugador2 = Sanador(200, 10, 10, 656, 365, 180, "Assets/Sanador/Base.png")
         elif eleccion == 2:
-            jugador2 = Guerrero(10, 10, 10, 656, 365, 180, "Assets/Caballero/Base.png")
+            jugador2 = Guerrero(200, 10, 10, 656, 365, 180, "Assets/Caballero/Base.png")
         else:
-            jugador2 = Mago(10, 10, 10, 656, 365, 180, "Assets/Mago/Base.png")
+            jugador2 = Mago(200, 10, 10, 656, 365, 180, "Assets/Mago/Base.png")
         self.jugadores.append(jugador2)
+        self.daños.append(self.jugadores[1].hp)
 
     def operar_evento(self, event: pygame.event):
         if event.type == pygame.QUIT:
@@ -109,8 +112,9 @@ class PvpFactory(Factory):
         if self.jugadores[0].golpear(self.jugadores[1].get_rect(), self.z_pressed):
             self.jugadores[1].recibir_daño(self.jugadores[0].st)
             self.jugadores[0].animar_ataque()
-            print(f"P2 HP: {self.jugadores[1].hp}")
+            self.daños[0] = self.jugadores[1].hp
         if self.jugadores[1].golpear(self.jugadores[0].get_rect(), self.j_pressed):
             self.jugadores[0].recibir_daño(self.jugadores[1].st)
             self.jugadores[1].animar_ataque()
-            print(f"P1 HP: {self.jugadores[0].hp}")
+            self.daños[1] = self.jugadores[0].hp
+        return self.daños
