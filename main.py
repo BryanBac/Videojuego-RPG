@@ -21,6 +21,10 @@ text_surface4 = test_font.render("Sanador", False, "White")
 text_surface5 = test_font.render("Guerrero", False, "White")
 text_surface6 = test_font.render("Mago", False, "White")
 
+# Musica
+
+pygame.mixer.music.load('Music/Pelea.mp3')
+
 #  Puntajes
 test_font2 = pygame.font.SysFont("Curier", 32)
 puntajej1 = test_font2.render("Jugador 1:", False, "Red")
@@ -84,6 +88,7 @@ def imagenes_seleccion(texto: str):
 
 
 def pantalla_seleccion(texto: str):
+    pygame.mixer.music.play(5)
     global text_surface4, text_surface5, text_surface6
     imagenes_seleccion(texto)
     if mecanica_seleccion.eleccion == 1:
@@ -137,6 +142,7 @@ def pantalla_pvp(personaje, rect_personaje, villano, rec_villano, daños):
     screen.blit(fondo, (0, 0))
     screen.blit(personaje, rect_personaje)
     screen.blit(villano, rec_villano)
+
     # Puntajes
     puntaje1 = test_font.render(str(daños[1]), False, "White")
     puntaje2 = test_font.render(str(daños[0]), False, "White")
@@ -193,12 +199,14 @@ while True:
         if creados:
             fabrica.movimiento_de_jugadores()
             if fabrica.partida_terminada():
+                pygame.mixer.music.stop()
                 pantalla_vencedor()
     if mecanica.pantalla == 2:
         if creados:
             fabrica_pc.movimiento_de_jugadores()
             fabrica_pc.ataque_enemigo()
             if fabrica_pc.partida_terminada():
+                pygame.mixer.music.stop()
                 pantalla_vencedor()
     # manejo de eventos
     for event in pygame.event.get():
