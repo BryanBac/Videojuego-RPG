@@ -3,16 +3,15 @@ import pygame
 
 class Animacion:
     def __init__(self, base, caminar_lista, saltar_lista, ataque_lista):
-        self.base = base
-        self.caminar_lista = caminar_lista
-        self.saltar_lista = saltar_lista
-        self.ataque_lista = ataque_lista
-        self.movimiento_camina = 0  # Apuntador de imagen para animación al caminar
-        self.movimiento_salta = 0  # Apuntador de imagen para animación al saltar
-        self.movimiento_ataque = 0  # Apuntador de imagen para animación al atacar
-        self.animacion = base  # Selecciona la animación a reproducir
-        self.contador = 0  # Apuntador de la animación
-        self.es_izquierda = False
+        self.base: list[str] = base
+        self.caminar_lista: list[str] = caminar_lista
+        self.saltar_lista: list[str] = saltar_lista
+        self.ataque_lista: list[str] = ataque_lista
+        self.movimiento_camina: float = 0  # Apuntador de imagen para animación al caminar
+        self.movimiento_salta: float = 0  # Apuntador de imagen para animación al saltar
+        self.movimiento_ataque: float = 0  # Apuntador de imagen para animación al atacar
+        self.animacion: list[str] = base  # Selecciona la animación a reproducir
+        self.contador: float = 0  # Apuntador de la animación
         self.jugador = pygame.image.load(self.base[0]).convert_alpha()
 
     def __animar(self, animacion, indice):
