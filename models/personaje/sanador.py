@@ -22,6 +22,7 @@ class Sanador(Personaje):
         self.__animacion: list[str] = self.__base
         self.ver_izq: bool = False  # Invierte la imagen para que vea a la izquierda
         self.saltando: bool = False  # Evita múltiples saltos
+        self.golpe = pygame.mixer.Sound("Music/Curacion.mp3")
 
     # Invierte la imagen
     def invertir(self):
@@ -50,6 +51,7 @@ class Sanador(Personaje):
         if int(self.__indice) >= len(self.__ataque):
             self.__indice = len(self.__ataque) - 1
         self.animar()
+        self.golpe.play()
 
     def izquierda(self):
         self.__animacion = self.__caminar

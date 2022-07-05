@@ -25,6 +25,7 @@ class Mob1(Enemy):
         self.__animacion: list[str] = self.__base
         self.ver_izq: bool = False
         self.saltando: bool = False
+        self.golpe = pygame.mixer.Sound("Music/Hechizo2.mp3")
 
     # Invierte la imagen
     def invertir(self):
@@ -106,6 +107,7 @@ class Mob1(Enemy):
         if int(self.__indice) >= len(self.__ataque):
             self.__indice = len(self.__ataque) - 1
         self.animar()
+        self.golpe.play()
 
     def get_imagen(self):
         return self.personaje

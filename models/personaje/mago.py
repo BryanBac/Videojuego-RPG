@@ -25,6 +25,7 @@ class Mago(Personaje):
         self.ver_izq: bool = False
         self.saltando: bool = False
         self.animando: bool = False
+        self.golpe = pygame.mixer.Sound("Music/Hechizo.mp3")
 
     def invertir(self):
         if self.ver_izq:
@@ -50,6 +51,7 @@ class Mago(Personaje):
         if int(self.__indice) >= len(self.__ataque):
             self.__indice = len(self.__ataque) - 1
         self.animar()
+        self.golpe.play()
 
     def izquierda(self):
         if not self.animando:

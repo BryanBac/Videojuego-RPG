@@ -5,6 +5,7 @@ import pygame
 class Guerrero(Personaje):
     def __init__(self, hp, mp, st, pos_x, pos_y, h, ruta_imagen: str):
         super().__init__(hp, mp, st, pos_x, pos_y, h, ruta_imagen)
+        self.golpe = pygame.mixer.Sound("Music/Golpe.mp3")
         # Comentarios de animación en la clase sanador
         self.__base: list[str] = ["Assets/Caballero/Base.png"]
         self.__ataque: list[str] = ["Assets/Caballero/Ataque.png"]
@@ -46,6 +47,7 @@ class Guerrero(Personaje):
         if int(self.__indice) >= len(self.__ataque):
             self.__indice = len(self.__ataque) - 1
         self.animar()
+        self.golpe.play()
 
     def izquierda(self):
         self.__animacion = self.__caminar
