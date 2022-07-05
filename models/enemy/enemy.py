@@ -28,3 +28,47 @@ class Enemy(metaclass=ABCMeta):
     @abstractmethod
     def atacar(self):
         raise NotImplementedError
+
+    @abstractmethod
+    def invertir(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def animar(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def detener_animacion(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def saltar(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def izquierda(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def derecha(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def recibir_daño(self, cantidad_recibida: int):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_rect(self) -> float:
+        raise NotImplementedError
+
+    @abstractmethod
+    def animar_ataque(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_imagen(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def aplicar_gravedad(self):
+        raise NotImplementedError

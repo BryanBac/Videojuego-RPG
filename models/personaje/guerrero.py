@@ -1,4 +1,5 @@
 from models.personaje.personaje import Personaje
+from models.personaje.animacion import Animacion
 import pygame
 
 
@@ -18,52 +19,39 @@ class Guerrero(Personaje):
             "Assets/Caballero/Salto_1.png",
             "Assets/Caballero/Salto_2.png",
         ]
-        self.__indice: float = 0
-        self.__animacion: list[str] = self.__base
         self.ver_izq: bool = False
         self.saltando: bool = False
+        self.golpe = pygame.mixer.Sound("Music/Golpe.mp3")
+        self.__animacion = Animacion(self.__base, self.__caminar, self.__saltar, self.__ataque)
 
     def invertir(self):
         if self.ver_izq:
             self.personaje = pygame.transform.flip(self.personaje, True, False)
 
     def animar(self):
-        self.personaje = pygame.image.load(
-            self.__animacion[int(self.__indice)]
-        ).convert_alpha()
         self.invertir()
         rectangulo = self.rec_personaje
         self.rec_personaje = self.personaje.get_rect(midbottom=rectangulo.midbottom)
 
     def detener_animacion(self):
-        self.__animacion = self.__base
-        self.__indice = 0
+        self.personaje = self.__animacion.detener()
         self.animar()
 
     def animar_ataque(self):
-        self.__animacion = self.__ataque
-        self.__indice += 0.04
-        if int(self.__indice) >= len(self.__ataque):
-            self.__indice = len(self.__ataque) - 1
+        self.personaje = self.__animacion.ataque()
         self.animar()
+        self.golpe.play()
 
     def izquierda(self):
-        self.__animacion = self.__caminar
-        self.__indice += 0.08
-        if int(self.__indice) >= len(self.__caminar):
-            self.__indice = 0
+        self.personaje = self.__animacion.caminar()
         self.ver_izq = True
         self.animar()
-        # print(self.rec_personaje.left)
         self.rec_personaje.left -= 4
         if self.rec_personaje.left < 0:
             self.rec_personaje.left = 0
 
     def derecha(self):
-        self.__animacion = self.__caminar
-        self.__indice += 0.08
-        if int(self.__indice) >= len(self.__caminar):
-            self.__indice = 0
+        self.personaje = self.__animacion.caminar()
         self.ver_izq = False
         self.animar()
         self.rec_personaje.left += 4
@@ -79,10 +67,7 @@ class Guerrero(Personaje):
         self.gravedad += 1
         self.rec_personaje.y += self.gravedad
         if self.saltando:
-            self.__animacion = self.__saltar
-            self.__indice += 0.2
-            if int(self.__indice) >= len(self.__saltar):
-                self.__indice = len(self.__saltar) - 1
+            self.personaje = self.__animacion.saltar()
             self.animar()
         if self.rec_personaje.bottom >= 365:
             self.rec_personaje.bottom = 365
